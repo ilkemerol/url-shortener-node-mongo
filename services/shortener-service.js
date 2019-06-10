@@ -24,10 +24,12 @@ exports.insertUrl = async function(req) {
 };
 
 exports.hashToOriginal = async function(req) {
-  const json = await urlModel.findOne({
-    _id: Buffer.from(req.params.hash, "base64").toString()
-  });
-  return json;
+  if (parseInt(Buffer.from(req.params.hash, "base64").toString()) !== NaN) {
+    const json = await urlModel.findOne({
+      _id: parseInt(Buffer.from(req.params.hash, "base64").toString())
+    });
+    return json;
+  }
 };
 
 exports.initiateCounter = async function(req) {

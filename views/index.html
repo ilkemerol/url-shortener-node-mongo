@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Title Goes Here</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>URL Shortener | Ilkem Erol</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit&display=swap"
+      rel="stylesheet"
+    />
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -19,47 +24,104 @@
       rel="stylesheet"
     />
     <link href="../styles/custom.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/switch.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/planet.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="container text-center">
+    <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2>Shorten URL</h2>
+          <div class="check_container">
+            <div class="cercle">
+              <div class="moon_details" id="m_d1"></div>
+              <div class="moon_details" id="m_d2"></div>
+              <div class="moon_details" id="m_d3"></div>
+            </div>
+
+            <div class="ghyama_container">
+              <div class="ghyama">
+                <div id="ghyama_d1"></div>
+                <div id="ghyama_d2"></div>
+                <div id="ghyama_d3"></div>
+              </div>
+            </div>
+
+            <div class="check_details">
+              <div class="small_cercle" id="c1"></div>
+              <div class="small_cercle" id="c2"></div>
+              <div class="small_cercle" id="c3"></div>
+              <div class="small_cercle" id="c4"></div>
+              <div class="small_cercle" id="c5"></div>
+              <div class="small_cercle" id="c6"></div>
+              <div class="small_cercle" id="c7"></div>
+              <div class="small_cercle" id="c8"></div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-9">
+        <div class="col-12">
+          <h2><i class="fas fa-less-than-equal mr-3"></i>Shorten URL</h2>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-10">
           <div class="md-form md-outline form-lg">
             <input
               id="form-lg"
-              class="form-control form-control-lg"
+              class="form-control form-control-lg text-white"
               type="text"
               name="url"
               value=""
             />
-            <label for="form-lg">URL</label>
+            <label for="form-lg">Somewhere in space</label>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <button
             id="urlsubmit"
-            class="btn btn-outline-primary customBtn"
-            style="margin-top: 1.5rem;"
+            class="btn btn-outline-light customBtn"
+            style="margin-top: 1.5rem; border-radius: 20px;"
           >
             <span>Shorten </span>
           </button>
         </div>
       </div>
-      <div class="row">
-        <div id="hashDiv" class="col-12">
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="float-right">
+            <h2>Beauty URL<i class="fas fa-sort-amount-down ml-3"></i></h2>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div id="loadingDiv" class="col-12">
+          <div class="content">
+            <div class="planet">
+              <div class="ring"></div>
+              <div class="cover-ring"></div>
+              <div class="spots">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <!-- <p>C'mon Human</p> -->
+          </div>
+        </div>
+        <div id="hashDiv" class="col-12" style="margin: 50px auto;">
           <span
             id="hashed"
-            class="z-depth-3 d-none"
-            style="font-size: 32px; padding: 10px; border: 2px solid #4285f4!important; border-radius: 10px;"
+            class="z-depth-3 text-white d-none"
+            style="font-size: 32px; padding: 10px; border: 2px solid #4285f4!important; border-radius: 10px; cursor: pointer;"
           ></span>
         </div>
       </div>
-      <div class="row">
+      <div class="row text-center">
         <div id="copyDiv" class="col-12">
           <span
             id="copy"
@@ -90,26 +152,40 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"
     ></script>
+    <script type="text/javascript" src="../styles/switch.js"></script>
     <script type="text/javascript">
       $("#urlsubmit").click(function() {
-        $("#hashDiv").removeClass("animated rubberBand");
-        $.ajax({
-          url: "shortener/service/insert-mongo",
-          type: "POST",
-          contentType: "application/json",
-          dataType: "json",
-          data: JSON.stringify({
-            url: $("input[name=url]").val()
-          }),
-          success: function(data) {
-            console.log(JSON.stringify(data));
-            $("#hashed").text(
-              window.location.origin + "/" + data.serviceResponse
-            );
-            $("#hashed").removeClass("d-none");
-            $("#hashDiv").addClass("animated rubberBand");
-          }
-        });
+        if (
+          /^(http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
+            $("input[name=url]").val()
+          )
+        ) {
+          $("#hashDiv").removeClass("animated rubberBand");
+          $.ajax({
+            url: "shortener/service/insert-mongo",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+              url: $("input[name=url]").val()
+            }),
+            success: function(data) {
+              console.log(JSON.stringify(data));
+              $(".content").addClass("animated zoomOut");
+              setTimeout(function() {
+                $("#loadingDiv").addClass("d-none");
+                $(".content").removeClass("animated zoomOut");
+                $("#hashed").text(
+                  window.location.origin + "/" + data.serviceResponse
+                );
+                $("#hashed").removeClass("d-none");
+                $("#hashDiv").addClass("animated rubberBand");
+              }, 1000);
+            }
+          });
+        } else {
+          alert("Please, Enter a valid URL, start with http or https.");
+        }
       });
       $("#hashed").click(function() {
         var copyText = document.getElementById("hashed");
@@ -126,6 +202,7 @@
           $("#copyDiv").addClass("flipOutX");
         }, 2500);
         setTimeout(function() {
+          $("#copyDiv").removeClass("flipOutX");
           $("#copy").addClass("d-none");
         }, 3000);
       });
