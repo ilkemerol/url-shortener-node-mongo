@@ -1,0 +1,41 @@
+body {
+  /* background-image: url("https://www.jlstms.com/data/wallpapers/19/im58394240.jpg");
+  background-repeat: no-repeat; */
+  height: 100vh;
+  margin: 10px;
+  padding: 20px;
+}
+
+.md-form.md-outline label.active {
+  border-radius: 10px;
+}
+
+.customBtn {
+  transition: all 0.5s;
+}
+
+.customBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.customBtn span:after {
+  content: "\f1d8";
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.customBtn:hover span {
+  padding-right: 25px;
+}
+
+.customBtn:hover span:after {
+  opacity: 1;
+  right: 0;
+}

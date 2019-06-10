@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Title Goes Here</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Design Bootstrap -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <link href="../styles/custom.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-12">
+          <h2>Shorten URL</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <div class="md-form md-outline form-lg">
+            <input
+              id="form-lg"
+              class="form-control form-control-lg"
+              type="text"
+              name="url"
+              value=""
+            />
+            <label for="form-lg">URL</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <button
+            id="urlsubmit"
+            class="btn btn-outline-primary customBtn"
+            style="margin-top: 1.5rem;"
+          >
+            <span>Shorten </span>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div id="hashDiv" class="col-12">
+          <span
+            id="hashed"
+            class="z-depth-3 d-none"
+            style="font-size: 32px; padding: 10px; border: 2px solid #4285f4!important; border-radius: 10px;"
+          ></span>
+        </div>
+      </div>
+      <div class="row">
+        <div id="copyDiv" class="col-12">
+          <span
+            id="copy"
+            class="d-none text-primary"
+            style="font-size: 18px; font-weight: 400px;"
+            >Copied!</span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- JQuery -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    ></script>
+    <!-- Bootstrap tooltips -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+    ></script>
+    <!-- Bootstrap core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+    ></script>
+    <!-- MDB core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"
+    ></script>
+    <script type="text/javascript">
+      $("#urlsubmit").click(function() {
+        $("#hashDiv").removeClass("animated rubberBand");
+        $.ajax({
+          url: "shortener/service/insert-mongo",
+          type: "POST",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify({
+            url: $("input[name=url]").val()
+          }),
+          success: function(data) {
+            console.log(JSON.stringify(data));
+            $("#hashed").text(
+              window.location.origin + "/" + data.serviceResponse
+            );
+            $("#hashed").removeClass("d-none");
+            $("#hashDiv").addClass("animated rubberBand");
+          }
+        });
+      });
+      $("#hashed").click(function() {
+        var copyText = document.getElementById("hashed");
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
+        $("#copy").removeClass("d-none");
+        $("#copyDiv").addClass("animated flipInX");
+        setTimeout(function() {
+          $("#copyDiv").removeClass("flipInX");
+          $("#copyDiv").addClass("flipOutX");
+        }, 2500);
+        setTimeout(function() {
+          $("#copy").addClass("d-none");
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
