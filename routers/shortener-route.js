@@ -8,6 +8,10 @@ router.get("/", (req, res, next) => {
   res.sendFile(path.resolve("views/index.html"));
 });
 
+router.get("/test-view", (req, res, next) => {
+  res.sendFile(path.resolve("views/test.html"));
+});
+
 // router.use("/service", shortenerController);
 
 router.post("/service/insert-mongo", shortenerController.insertOrCheck);

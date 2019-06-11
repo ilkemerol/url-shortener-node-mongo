@@ -13,6 +13,7 @@ $(document).ready(function() {
       $("#urlsubmit").addClass("btn-outline-primary");
       $("#form-lg").removeClass("text-white");
       $("#form-lg").addClass("text-primary");
+      $("#form-lg").addClass("form-light-border");
       $("#hashed").removeClass("text-white");
       $("#hashed").addClass("text-primary");
       $(".cercle").css({
@@ -37,6 +38,7 @@ $(document).ready(function() {
       $("#urlsubmit").addClass("btn-outline-light");
       $("#form-lg").removeClass("text-primary");
       $("#form-lg").addClass("text-white");
+      $("#form-lg").removeClass("form-light-border");
       $("#hashed").removeClass("text-primary");
       $("#hashed").addClass("text-white");
       $(".cercle").css({

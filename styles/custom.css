@@ -12,6 +12,10 @@ h2 {
   color: #d8e4e6;
 }
 
+.form-light-border {
+  border: 1px solid #4285f4 !important;
+}
+
 .md-form.md-outline label.active {
   border-radius: 10px;
 }

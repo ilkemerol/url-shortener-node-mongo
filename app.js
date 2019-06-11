@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const config = require("./config/db-config.json");
 
-mongoose.connect("mongodb://localhost:27017/url-shortener", {
+mongoose.connect(config.url, {
   useNewUrlParser: true
 });
 

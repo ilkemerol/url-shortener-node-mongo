@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>URL Shortener | Ilkem Erol</title>
     <link
       href="https://fonts.googleapis.com/css?family=Kanit&display=swap"
@@ -61,12 +62,12 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <h2><i class="fas fa-less-than-equal mr-3"></i>Shorten URL</h2>
+          <h2><i class="fas fa-less-than-equal mr-3"></i>Loooong URL</h2>
         </div>
       </div>
       <div class="row text-center">
         <div class="col-10">
-          <div class="md-form md-outline form-lg">
+          <div id="formDiv" class="md-form md-outline form-lg">
             <input
               id="form-lg"
               class="form-control form-control-lg text-white"
@@ -90,7 +91,7 @@
       <div class="row mt-5">
         <div class="col-12">
           <div class="float-right">
-            <h2>Beauty URL<i class="fas fa-sort-amount-down ml-3"></i></h2>
+            <h2>Shorten URL<i class="fas fa-sort-amount-down ml-3"></i></h2>
           </div>
         </div>
       </div>
@@ -184,7 +185,12 @@
             }
           });
         } else {
-          alert("Please, Enter a valid URL, start with http or https.");
+          $("#formDiv").addClass("animated shake");
+          $("#form-lg").val("");
+          $("#form-lg").attr("placeholder", "https:// or http://");
+          setTimeout(function() {
+            $("#formDiv").removeClass("animated shake");
+          }, 1000);
         }
       });
       $("#hashed").click(function() {
