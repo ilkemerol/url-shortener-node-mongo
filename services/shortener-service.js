@@ -35,7 +35,7 @@ exports.insertUrl = async function(req) {
 };
 
 exports.hashToOriginal = async function(req) {
-  if (parseInt(Buffer.from(req.params.hash, "base64").toString()) !== NaN) {
+  if (!isNaN(Buffer.from(req.params.hash, "base64").toString())) {
     const json = await urlModel.findOne({
       _id: parseInt(Buffer.from(req.params.hash, "base64").toString())
     });
