@@ -1,4 +1,4 @@
 {
-  "url": "mongodb://heroku_url_shortener:Q2206881916@ds235417.mlab.com:35417/heroku_cp9bg1x5",
-  "env": "heroku"
+  "url": "mongodb://localhost:27017/url-shortener",
+  "env": "local"
 }
