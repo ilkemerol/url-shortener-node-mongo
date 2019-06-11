@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const requestIp = require("request-ip");
+const log = require("../utils/shortener-logger");
 const urlModel = require("../models/shortener-model");
 const counterModel = require("../models/counter-model");
 
@@ -10,6 +12,13 @@ exports.insertUrl = async function(req) {
   ) {
     const isExist = await urlModel.findOne({ url: req.body.url });
     if (isExist) {
+      log.doit(
+        requestIp.getClientIp(req) +
+          " get exist Url with _id: " +
+          isExist._id +
+          " Url: " +
+          isExist.url
+      );
       const hashedVal = Buffer.from(isExist._id.toString()).toString("base64");
       return hashedVal;
     } else {
@@ -21,12 +30,21 @@ exports.insertUrl = async function(req) {
       const newUrl = new urlModel({
         _id: currCounter.count,
         url: req.body.url,
+        creator: requestIp.getClientIp(req).toString(),
         created_date: new Date()
       });
+      log.doit(
+        requestIp.getClientIp(req) +
+          " insert a new Url with _id: " +
+          newUrl._id +
+          " Url: " +
+          newUrl.url
+      );
       const addedUrl = await newUrl.save();
       return Buffer.from(addedUrl._id.toString()).toString("base64");
     }
   } else {
+    log.doit(requestIp.getClientIp(req) + " try to something.");
     const errJson = {
       errCode: 999
     };
@@ -35,15 +53,30 @@ exports.insertUrl = async function(req) {
 };
 
 exports.hashToOriginal = async function(req) {
-  if (parseInt(Buffer.from(req.params.hash, "base64").toString()) !== NaN) {
+  if (!isNaN(Buffer.from(req.params.hash, "base64").toString())) {
     const json = await urlModel.findOne({
       _id: parseInt(Buffer.from(req.params.hash, "base64").toString())
     });
+    await urlModel.findOneAndUpdate(
+      { _id: json.id },
+      { $inc: { usage: 1 } },
+      { new: true, useFindAndModify: false }
+    );
+    log.doit(
+      requestIp.getClientIp(req) +
+        " using shorten Url with hash: " +
+        req.params.hash +
+        " , _id: " +
+        json.id +
+        " , origin: " +
+        json.url
+    );
     return json;
   }
 };
 
 exports.initiateCounter = async function(req) {
+  log.doit(requestIp.getClientIp(req) + " try to init counter schema.");
   const initCounter = new counterModel({ _id: "url_count", count: 10000 });
   const json = await initCounter.save();
   return json;

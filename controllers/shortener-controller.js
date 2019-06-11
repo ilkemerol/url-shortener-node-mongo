@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 
 const shortenerService = require("../services/shortener-service");
 
@@ -18,9 +17,13 @@ exports.getOriginal = async function(req, res, next) {
     });
     res.end();
   } else {
-    return res.status(200).json({
-      error: "no shorten url"
+    // return res.status(200).json({
+    //   error: "no shorten url"
+    // });
+    res.writeHead(302, {
+      Location: "/shortener"
     });
+    res.end();
   }
 };
 
