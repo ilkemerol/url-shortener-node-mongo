@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const requestIp = require("request-ip");
+const log = require("../utils/shortener-logger");
 
 const shortenerController = require("../controllers/shortener-controller");
 
 router.get("/", (req, res, next) => {
-  console.log(requestIp.getClientIp(req));
+  log.doit("Guest's IP: " + requestIp.getClientIp(req));
   res.sendFile(path.resolve("views/index.html"));
 });
 
