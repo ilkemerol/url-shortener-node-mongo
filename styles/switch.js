@@ -16,6 +16,16 @@ $(document).ready(function() {
       $("#form-lg").addClass("form-light-border");
       $("#hashed").removeClass("text-white");
       $("#hashed").addClass("text-primary");
+
+      $(".ring").addClass("d-none");
+      $(".cover-ring").addClass("d-none");
+      $(".planet").addClass("sun");
+      $(".content .planet .spots span").addClass("sun-hole");
+      $(".content").addClass("bounceIn");
+      setTimeout(function() {
+        $(".content").removeClass("bounceIn");
+      }, 500);
+
       $(".cercle").css({
         transform: "translateX(48px)",
         "background-color": "#fbcf07",
@@ -41,6 +51,16 @@ $(document).ready(function() {
       $("#form-lg").removeClass("form-light-border");
       $("#hashed").removeClass("text-primary");
       $("#hashed").addClass("text-white");
+
+      $(".ring").removeClass("d-none");
+      $(".cover-ring").removeClass("d-none");
+      $(".planet").removeClass("sun");
+      $(".content .planet .spots span").removeClass("sun-hole");
+      $(".content").addClass("bounceIn");
+      setTimeout(function() {
+        $(".content").removeClass("bounceIn");
+      }, 500);
+
       $(".cercle").css({
         transform: "translateX(0px)",
         "background-color": "blanchedalmond",
