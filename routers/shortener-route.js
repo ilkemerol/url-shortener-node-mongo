@@ -11,6 +11,10 @@ router.get("/", (req, res, next) => {
   res.sendFile(path.resolve("views/index.html"));
 });
 
+router.get("/upload", (req, res, next) => {
+  res.sendFile(path.resolve("views/upload.html"));
+});
+
 router.get("/test-view", (req, res, next) => {
   res.sendFile(path.resolve("views/test.html"));
 });

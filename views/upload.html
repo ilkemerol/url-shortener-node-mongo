@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
+    <!-- Bootstrap Core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet" />
+  </head>
+  <body class="m-5 p-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12">
+          <button id="upload" type="button" class="btn btn-primary btn-lg btn-block">Upload</button>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card d-none">
+            <div id="upload-message" class="card-body success-color white-text text-center">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
+    <script type="text/javascript">
+      $("#upload").click(function() {
+        let msg = $("#upload-message");
+        msg.parent().removeClass("d-none");
+
+        if (!$("#inputGroupFile01").val()) {
+          msg.removeClass("success-color").addClass("danger-color");
+          msg.text("Please select file");
+        } else {
+          msg.removeClass("danger-color").addClass("success-color");
+          msg.text("File uploaded successfully");
+        }
+      });
+    </script>
+  </body>
+</html>
