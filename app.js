@@ -3,10 +3,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var favicon = require("serve-favicon");
-const config = require("./config/db-config.json");
+const dotenv = require("dotenv");
 
-mongoose.connect(config.url, {
-  useNewUrlParser: true
+dotenv.config();
+mongoose.connect(process.env.MONGO, {
+  useNewUrlParser: true,
 });
 
 const shortenerRoute = require("./routers/shortener-route");
