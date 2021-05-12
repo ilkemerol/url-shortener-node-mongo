@@ -80,7 +80,7 @@
           <button
             id="urlsubmit"
             class="btn btn-outline-light customBtn"
-            style="margin-top: 1.5rem; border-radius: 20px;"
+            style="margin-top: 1.5rem; border-radius: 20px"
           >
             <span>Shorten </span>
           </button>
@@ -112,12 +112,25 @@
             <!-- <p>C'mon Human</p> -->
           </div>
         </div>
-        <div id="hashDiv" class="col-12" style="margin: 50px auto;">
+        <div id="hashDiv" class="col-12" style="margin: 50px auto">
           <span
             id="hashed"
             class="z-depth-3 text-white d-none"
-            style="font-size: 32px; padding: 10px; border: 2px solid #4285f4!important; border-radius: 10px; cursor: pointer;"
+            style="
+              font-size: 32px;
+              padding: 10px;
+              border: 2px solid #4285f4 !important;
+              border-radius: 10px;
+              cursor: pointer;
+            "
           ></span>
+        </div>
+        <div id="qrDiv" class="col-12" style="margin: 50px auto">
+          <canvas
+            id="canvas"
+            class="z-depth-3 text-white d-none"
+            style="border: 2px solid #4285f4 !important; border-radius: 7px"
+          ></canvas>
         </div>
       </div>
       <div class="row text-center">
@@ -125,7 +138,7 @@
           <span
             id="copy"
             class="d-none text-primary"
-            style="font-size: 18px; font-weight: 400px;"
+            style="font-size: 18px; font-weight: 400px"
             >Copied!</span
           >
         </div>
@@ -151,47 +164,58 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"
     ></script>
+    <script src="/node_modules/qrcode/build/qrcode.js"></script>
     <script type="text/javascript" src="../styles/switch.js"></script>
     <script type="text/javascript">
-      $("#urlsubmit").click(function() {
+      $("#urlsubmit").click(function () {
         if (
           /^(http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
             $("input[name=url]").val()
           )
         ) {
-          $("#hashDiv").removeClass("animated rubberBand");
+          $("#hashDiv").removeClass("animated fadeIn");
+          $("#qrDiv").removeClass("animated fadeIn");
           $.ajax({
             url: "shortener/service/insert-mongo",
             type: "POST",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify({
-              url: $("input[name=url]").val()
+              url: $("input[name=url]").val(),
             }),
-            success: function(data) {
+            success: function (data) {
               console.log(JSON.stringify(data));
               $(".content").addClass("animated zoomOut");
-              setTimeout(function() {
+              setTimeout(function () {
                 $("#loadingDiv").addClass("d-none");
                 $(".content").removeClass("animated zoomOut");
                 $("#hashed").text(
                   window.location.origin + "/" + data.serviceResponse
                 );
+                QRCode.toCanvas(
+                  document.getElementById("canvas"),
+                  window.location.origin + "/" + data.serviceResponse,
+                  function (error) {
+                    if (error) console.error(error);
+                  }
+                );
                 $("#hashed").removeClass("d-none");
-                $("#hashDiv").addClass("animated rubberBand");
+                $("#canvas").removeClass("d-none");
+                $("#hashDiv").addClass("animated fadeIn");
+                $("#qrDiv").addClass("animated fadeIn");
               }, 1000);
-            }
+            },
           });
         } else {
           $("#formDiv").addClass("animated shake");
           $("#form-lg").val("");
           $("#form-lg").attr("placeholder", "https:// or http://");
-          setTimeout(function() {
+          setTimeout(function () {
             $("#formDiv").removeClass("animated shake");
           }, 1000);
         }
       });
-      $("#hashed").click(function() {
+      $("#hashed").click(function () {
         var copyText = document.getElementById("hashed");
         var textArea = document.createElement("textarea");
         textArea.value = copyText.textContent;
@@ -201,11 +225,11 @@
         textArea.remove();
         $("#copy").removeClass("d-none");
         $("#copyDiv").addClass("animated flipInX");
-        setTimeout(function() {
+        setTimeout(function () {
           $("#copyDiv").removeClass("flipInX");
           $("#copyDiv").addClass("flipOutX");
         }, 2500);
-        setTimeout(function() {
+        setTimeout(function () {
           $("#copyDiv").removeClass("flipOutX");
           $("#copy").addClass("d-none");
         }, 3000);
